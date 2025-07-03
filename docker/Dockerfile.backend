@@ -11,6 +11,8 @@ COPY ./turbo.json ./turbo.json
 COPY ./apps/backend ./backend
 
 RUN bun install
+# echo the current working directory
+RUN echo "Current working directory: $(pwd)"
 RUN bun run db:generate
 
 EXPOSE 8080
