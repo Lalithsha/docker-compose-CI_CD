@@ -13,6 +13,8 @@ COPY ./apps/backend ./backend
 RUN bun install
 # echo the current working directory
 RUN echo "Current working directory: $(pwd)"
+# list all the files in the current directory
+RUN ls -la
 RUN bun run db:generate
 
 EXPOSE 8080
