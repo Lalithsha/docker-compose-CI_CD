@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:alpine
+    container_name: postgres_container
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2002  
+      POSTGRES_DB: postgres
+      healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5 
+      
+
+  app:
+    build:
+    context: .
+    dockerfile: Dockerfile.web
+    args:
+        - DATABASE_URL=postgresql://postgres:2002@postgres:5432/postgres
+    container_name: cms-docker
+    environment:
+      - DATABASE_URL=postgresql://postgres:2002@postgres:5432/postgres
+      - NEXT_WEBPACK_USEPOLLING=1
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+      - '8081:8081'
+    depends_on:
+      postgres:
+        condition: service_healthy  
