@@ -15,6 +15,7 @@ RUN bun install
 RUN echo "Current working directory: $(pwd)"
 # list all the files in the current directory
 RUN ls -la
+RUN cd packages && ls -la && cd ..
 RUN bun run db:generate
 
 EXPOSE 8080
