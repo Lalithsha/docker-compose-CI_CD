@@ -21,16 +21,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./docker/Dockerfile.backend
+          file: Dockerfile.websocket
           push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
-      - name: Build and push docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: Dockerfile.backend
-          push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
+          tags: ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_websocket:${{github.sha}}
       - name: Deploy to VM
         uses: appleboy/ssh-action@master
         with:
@@ -39,7 +32,7 @@ jobs:
           key: ${{ secrets.PRIVATE_SSH_KEY }}
           port: 22 # Explicitly set (default is 22)
           script: |
-            docker pull ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
-            docker stop docker-compose-ci_cd || true
-            docker rm docker-compose-ci_cd || true
-            docker run -d --name docker-compose-ci_cd -p 8000:8000 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
+            docker pull ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_websocket:${{github.sha}}
+            docker stop docker-compose-ci_cd_websocket || true
+            docker rm docker-compose-ci_cd_websocket || true
+            docker run -d --name docker-compose-ci_cd_websocket -p 8000:8000 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_websocket:${{github.sha}}
