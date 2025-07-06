@@ -37,4 +37,4 @@ jobs:
             docker pull ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}
             docker stop docker-compose-ci_cd_frontend || true
             docker rm docker-compose-ci_cd_frontend || true
-            docker run -d --name docker-compose-ci_cd_frontend -p 8000:8000 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}
+            docker run -d --name docker-compose-ci_cd_frontend -p 3000:3000 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}
