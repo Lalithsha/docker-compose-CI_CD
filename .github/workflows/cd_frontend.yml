@@ -24,3 +24,17 @@ jobs:
           file: ./docker/Dockerfile.frontend
           push: true
           tags: ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+      - name: Deploy to VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
+          port: 22 # Explicitly set (default is 22)
+          script: |
+            docker pull ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}
+            docker stop docker-compose-ci_cd_frontend || true
+            docker rm docker-compose-ci_cd_frontend || true
+            docker run -d --name docker-compose-ci_cd_frontend -p 8000:8000 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}

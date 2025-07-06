@@ -24,13 +24,6 @@ jobs:
           file: ./docker/Dockerfile.backend
           push: true
           tags: ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
-      - name: Build and push docker Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: Dockerfile.backend
-          push: true
-          tags: ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
       - name: Deploy to VM
         uses: appleboy/ssh-action@master
         with:
