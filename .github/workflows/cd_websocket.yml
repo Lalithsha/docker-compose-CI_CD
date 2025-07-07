@@ -36,4 +36,5 @@ jobs:
             docker stop docker-compose-ci_cd_websocket || true
             docker rm docker-compose-ci_cd_websocket || true
             docker run -d --name docker-compose-ci_cd_websocket -p 8081:8081 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_websocket:${{github.sha}}
+            echo pwd
             docker ps

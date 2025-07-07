@@ -38,5 +38,6 @@ jobs:
             docker stop docker-compose-ci_cd_frontend || true
             docker rm docker-compose-ci_cd_frontend || true
             docker run -d --name docker-compose-ci_cd_frontend -p 3000:3000 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd_frontend:${{github.sha}}
+            echo pwd
             docker ps
             docker logs docker-compose-ci_cd_frontend
