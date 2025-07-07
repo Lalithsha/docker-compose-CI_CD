@@ -36,5 +36,5 @@ jobs:
             docker stop docker-compose-ci_cd || true
             docker rm docker-compose-ci_cd || true
             docker run -d --name docker-compose-ci_cd -p 8080:8080 ${{secrets.DOCKERHUB_USERNAME}}/docker-compose-ci_cd:${{github.sha}}
-            echo pwd
+            pwd && ls -la
             docker ps
